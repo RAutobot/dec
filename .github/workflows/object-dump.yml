@@ -10,7 +10,7 @@ jobs:
 
       - name: Run
         run: |
-          llvm-objdump-18 -dC --start-address=0x8f5bc0 --stop-address=0x914b64 *.so | sed -E "s|\s+| |g; s|^[[:xdigit:]]+ <(.*)>:$|\1|; s|[[:xdigit:]]+: [[:xdigit:]]+ ||" > object-dump.txt
+          llvm-objdump-18 -dC --start-address=0x8f5bc0 --stop-address=0x914b64 *.so | sed -E "s|\s+| |g; s|^[[:xdigit:]]+ (<.+>):$|\1|; s|^ [[:xdigit:]]+: [[:xdigit:]]+ ||" > object-dump.txt
 
       - name: Upload
         uses: actions/upload-artifact@v7
