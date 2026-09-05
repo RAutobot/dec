@@ -10,7 +10,7 @@ jobs:
 
       - name: Run
         run: |
-          timeout 15 docker run --entrypoint /bin/sh -v "$PWD:/pwd" rizin/rizin:latest -c "rizin -q -c 'af @ 0x8f18a0; af @ 0x8f01dc; pdg @ 0x8f01dc' /pwd/*.so" > upload.c || true
+          timeout -s 9 60s docker run --entrypoint /bin/sh -v "$PWD:/pwd" rizin/rizin:latest -c "rizin -q -c 'af @ 0x8f18a0; af @ 0x8f01dc; pdg @ 0x8f01dc' /pwd/*.so" > upload.c || true
 
       - name: Upload
         uses: actions/upload-artifact@v7
