@@ -1,15 +1,15 @@
-name: Rizin
+name: Object Dump
 on: workflow_dispatch
   
 jobs:
-  rizin:
+  object-dump:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v7
 
       - name: Run
-        run: docker run -i -v "$PWD:/pwd" --entrypoint /bin/sh rizin/rizin:latest -c 'rizin -qq -NN -nn -c "pd 2 @ 0x8f046c" /pwd/*.so < /dev/null'
+        run: llvm-objdump -d -C --start-address=0x8f5bc0 --stop-address=0x914b64 *.so > upload.txt
 
       - name: Upload
         uses: actions/upload-artifact@v7
