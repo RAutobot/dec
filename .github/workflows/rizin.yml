@@ -11,4 +11,4 @@ jobs:
       - name: Download and run
         run: |
           curl -sSL https://github.com/rizinorg/rizin/releases/download/v0.9.1/rizin-v0.9.1-static-x86_64.tar.xz | tar -xJ -f -
-          ./bin/rz-bin -e bin.maxstrbuf=0x2000000 -e str.search.buffer_size=0x2000000 -z *.so
+          env RZ_BIN_MAXSTRBUF=0x2000000 ./bin/rz-bin -z *.so
