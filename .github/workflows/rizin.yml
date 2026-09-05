@@ -9,7 +9,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Run
-        run: docker run -v "$PWD:/pwd" --entrypoint /bin/sh rizin/rizin:latest -c 'rizin -qq -c "pd 2 @ 0x8f046c" /pwd/*.so < /dev/null'
+        run: docker run -i -v "$PWD:/pwd" --entrypoint /bin/sh rizin/rizin:latest -c 'rizin -qq -c "pd 2 @ 0x8f046c" /pwd/*.so < /dev/null'
 
       - name: Upload
         uses: actions/upload-artifact@v7
