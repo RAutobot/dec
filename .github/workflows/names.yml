@@ -1,21 +1,18 @@
-name: Object Dump
+name: Names
 on: workflow_dispatch
   
 jobs:
-  object-dump:
+  names:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v7
 
       - name: Run
-        run: |
-          llvm-nm-18 -jC *.so | awk '$0 ~ "^UIElement::"' | while read -r method; do
-            llvm-objdump-18 -C --disassemble-symbols="$m" *.so | sed -E "s|\s+| |g; s|^[[:xdigit:]]+ (<.+>):$|\1|; s|^ [[:xdigit:]]+: [[:xdigit:]]+ ||"
-          done > object-dump.asm
+        run: llvm-nm-18 -DC *.so > names.txt
 
       - name: Upload
         uses: actions/upload-artifact@v7
         with:
           archive: false
-          path: object-dump.asm
+          path: names.txt
