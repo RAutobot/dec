@@ -9,8 +9,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Run
-        run: |
-          timeout -s 9 60s docker run --entrypoint /bin/sh -v "$PWD:/pwd" rizin/rizin:latest -c "rizin -q -c 'af @ 0x8f18a0; af @ 0x8f01dc; pdg @ 0x8f01dc' /pwd/*.so" > upload.c || true
+        run: docker run --entrypoint /bin/sh -v "$PWD:/pwd" rizin/rizin:latest -c "rizin -q -c 'aa; pdg @ 0x8f01dc' /pwd/*.so" > upload.c
 
       - name: Upload
         uses: actions/upload-artifact@v7
