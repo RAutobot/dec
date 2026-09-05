@@ -9,7 +9,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Run
-        run: docker run -v "$PWD:/pwd" --entrypoint /bin/sh rizin/rizin:latest -c "export RZ_LOGLEVEL=0; export RZ_LOGSHOWSOURCES=1; rizin -q -z -c 'pdf @ 0x8f01dc' /pwd/*.so"
+        run: docker run -v "$PWD:/pwd" --entrypoint /bin/sh rizin/rizin:latest -c "export RZ_LOGLEVEL=0; rizin -q -z -c 'pdf @ 0x8f046c' /pwd/*.so"
 
       - name: Upload
         uses: actions/upload-artifact@v7
