@@ -8,8 +8,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: Run
-        run: docker run -v "${{ github.workspace }}:/wd" rizin/rizin:latest RZ_LOGLEVEL=1 rizin -q -c "af @ 0x8f18a0; af @ 0x8f01dc; pdg @ 0x8f01dc" wd/*.so > upload.c 
+      - name: Run Decompiler
+        run: docker run --entrypoint /bin/sh -e RZ_LOGLEVEL=1 -v "${{ github.workspace }}:/wd" rizin/rizin:latest -c "rizin -q -c 'af @ 0x8f18a0; af @ 0x8f01dc; pdg @ 0x8f01dc' /wd/*.so" > upload.c
 
       - name: Upload
         uses: actions/upload-artifact@v7
