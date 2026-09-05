@@ -1,5 +1,10 @@
 name: Object Dump
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      symbol-name:
+        description: Symbol name
+        required: true
   
 jobs:
   object-dump:
@@ -10,9 +15,7 @@ jobs:
 
       - name: Run
         run: |
-          llvm-nm-18 -jC *.so | awk '$0 ~ /^UIElement::/' | sed 's|(.+||' | while read -r method; do
-            llvm-objdump-18 -C --disassemble-symbols="$method" *.so | sed -E -e 's|\s+| |g' -e 's|^[[:xdigit:]]+ (<.+>):$|\1|' -e 's|^ [[:xdigit:]]+: [[:xdigit:]]+ ||'
-          done > object-dump.asm
+          llvm-objdump-18 -C --disassemble-symbols="${{ inputs.symbol-name }}" *.so | sed -E -e 's|\s+| |g' -e 's|^[[:xdigit:]]+ (<.+>):$|\1|' -e 's|^ [[:xdigit:]]+: [[:xdigit:]]+ ||' > object-dump.asm
 
       - name: Upload
         uses: actions/upload-artifact@v7
