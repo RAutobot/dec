@@ -11,10 +11,10 @@ jobs:
       - name: Download and run
         run: |
           curl -sSL https://github.com/rizinorg/rizin/releases/download/v0.9.1/rizin-v0.9.1-static-x86_64.tar.xz | tar -xJ -f -
-          .bin/rizin -q -c "af @ 0x00401120; pdd @ 0x00401120" *.so
+          .bin/rizin -q -c "af @ 0x00401120; pdd @ 0x00401120" *.so > upload.c
 
       - name: Upload
         uses: actions/upload-artifact@v7
         with:
           archive: false
-          path: upload.txt
+          path: upload.c
