@@ -11,7 +11,7 @@ jobs:
       - name: Download and run
         run: |
           curl -sSL https://github.com/rizinorg/rizin/releases/download/v0.9.1/rizin-v0.9.1-static-x86_64.tar.xz | tar -xJ -f -
-          RZ_LOGLEVEL=2 ./bin/rizin -q -c "af @ 0x8f18a0; af @ 0x8f01dc; pdd @ 0x8f01dc" *.so > upload.c
+          RZ_LOGLEVEL=2 ./bin/rizin -q -c "af @ 0x8f18a0; af @ 0x8f01dc; pdc @ 0x8f01dc" *.so > upload.c
 
       - name: Upload
         uses: actions/upload-artifact@v7
