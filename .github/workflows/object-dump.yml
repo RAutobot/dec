@@ -18,10 +18,10 @@ jobs:
 
       - name: Run
         run: |
-          llvm-objdump-18 -dC --start-address="0x${{ inputs.start-address }}" --stop-address="0x${{ inputs.stop-address }}" *.so | sed -E -e 's|\s+| |g' -e 's|^[[:xdigit:]]+ (<.+>):$|\1|' -e 's|^ [[:xdigit:]]+: [[:xdigit:]]+ ||' > object-dump.asm
+          llvm-objdump-18 -dC --start-address="0x${{ inputs.start-address }}" --stop-address="0x${{ inputs.stop-address }}" *.so | sed -E -e 's|\s+| |g' -e 's|^[[:xdigit:]]+ (<.+>):$|\1|' -e 's|^ [[:xdigit:]]+: [[:xdigit:]]+ ||' > "${{ inputs.start-address }}-${{ inputs.stop-address }}.asm"
 
       - name: Upload
         uses: actions/upload-artifact@v7
         with:
           archive: false
-          path: object-dump.asm
+          path: ${{ inputs.start-address }}-${{ inputs.stop-address }}.asm
