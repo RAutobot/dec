@@ -10,7 +10,7 @@ jobs:
 
       - name: Run
         run: |
-          llvm-nm-18 -jC *.so | awk '$0 ~ /^UIElement::/' | while read -r method; do
+          llvm-nm-18 -jC *.so | awk '$0 ~ /^UIElement::/' | sed 's|(.+||' | while read -r method; do
             llvm-objdump-18 -C --disassemble-symbols="$method" *.so | sed -E -e 's|\s+| |g' -e 's|^[[:xdigit:]]+ (<.+>):$|\1|' -e 's|^ [[:xdigit:]]+: [[:xdigit:]]+ ||'
           done > object-dump.asm
 
