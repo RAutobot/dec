@@ -15,7 +15,7 @@ jobs:
 
       - name: Run
         run: |
-          llvm-objdump-18 -C --disassemble-symbols="${{ inputs.mangled-names }}" *.so | sed -E -e 's|\s+| |g' -e 's|^[[:xdigit:]]+ (<.+>):$|\1|' -e 's|^ [[:xdigit:]]+: [[:xdigit:]]+ ||' > object-dump.asm
+          llvm-objdump-18 --disassemble-symbols="${{ inputs.mangled-names }}" *.so | sed -E -e 's|\s+| |g' -e 's|^[[:xdigit:]]+ (<.+>):$|\1|' -e 's|^ [[:xdigit:]]+: [[:xdigit:]]+ ||' > object-dump.asm
 
       - name: Upload
         uses: actions/upload-artifact@v7
