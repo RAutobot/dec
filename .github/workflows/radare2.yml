@@ -14,22 +14,18 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Install and run
-        if: cancelled()
+
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends radare2
 
-          r2 -q -e bin.cache=true -c "aa; aar; axt @ ${{ inputs.offset }}" *.so > radare2.txt
+          # 1. Dump the code right after af1004 in Update():
+          echo "=== Inside Update() after af1004 ==="
+          llvm-objdump-18 -d -C --start-address=0xaf1000 --stop-address=0xaf1030 *.so > e.txt
 
-      - name: Linear Call Search
-        run: |
-          # 1. See who calls UpdateUI (at address af77d0):
-          echo "=== Who calls UpdateUI? ==="
-          llvm-objdump-18 -d *.so | grep -E "(bl|b)\s+.*af77d0" || echo "No direct calls to UpdateUI."
-
-          # 2. Dump the rest of UpdateUI to see how it shrinks the bar:
-          echo "=== Full UpdateUI function ==="
-          llvm-objdump-18 -d -C --start-address=0xaf77d0 --stop-address=0xaf7810 *.so > e.txt
+          # 2. Print the exact string FindElementByName was searching for at 0x4ba56b:
+          echo "=== Child Element Name ==="
+          r2 -q -c "ps @ 0x4ba56b" *.so > r2.txt
 
       - name: Upload
         uses: actions/upload-artifact@v7
