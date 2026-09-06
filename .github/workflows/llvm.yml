@@ -2,8 +2,10 @@ name: LLVM
 on:
   workflow_dispatch:
     inputs:
-      disassemble-symbols:
-        description: Disassemble symbols
+      symbols:
+        description: Symbols
+      leading-addresses:
+        description: Leading addresses
 
 jobs:
   llvm:
@@ -16,8 +18,8 @@ jobs:
         run: |
           llvm-nm-18 -D -f posix *.so > nm.txt
 
-          if [[ -n "${{ inputs.disassemble-symbols }}" ]]; then
-            llvm-objdump-18 --no-show-raw-insn --disassemble-symbols="${{ inputs.disassemble-symbols }}" *.so | llvm-cxxfilt-18 | awk '{ $1=$1; gsub(/^.*<|>:$/, ""); print; }' > objdump.txt
+          if [[ -n "${{ inputs.symbols }}" ]]; then
+            llvm-objdump-18 ${{ inputs.leading-addresses && '--no-show-raw-insn' || '--no-leading-addr --no-show-raw-insn' }} --disassemble-symbols="${{ inputs.disassemble-symbols }}" *.so | llvm-cxxfilt-18 | awk '{ $1=$1; gsub(/^.*<|>:$/, ""); print; }' > objdump.txt
           fi
 
       - name: Upload
