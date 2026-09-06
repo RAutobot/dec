@@ -20,6 +20,27 @@ jobs:
 
           r2 -q -e bin.cache=true -c "aa; aar; axt @ ${{ inputs.offset }}" *.so > radare2.txt
 
+      - name: Linear Call Search
+        run: |
+          # 1. Get exact addresses from nm
+          HP_ADDR=$(llvm-nm-18 *.so | grep "CreateHPBarForEntity" | awk '{print $1}')
+          STAMINA_ADDR=$(llvm-nm-18 *.so | grep "CreateStaminaBarForEntity" | awk '{print $1}')
+
+          echo "HP Bar Address:      $HP_ADDR"
+          echo "Stamina Bar Address: $STAMINA_ADDR"
+
+          # 2. Linear search across the ENTIRE binary for branches to Stamina Bar
+          echo "=== References to STAMINA BAR ==="
+          llvm-objdump-18 -d *.so | grep -E "(bl|b)\s+.*$STAMINA_ADDR" || echo "Zero direct calls found."
+
+          # 3. Linear search across the ENTIRE binary for branches to HP BAR
+          echo "=== References to HP BAR ==="
+          llvm-objdump-18 -d *.so | grep -E "(bl|b)\s+.*$HP_ADDR" || echo "Zero direct calls found."
+
+          # 4. Check if either address exists in the ELF Relocation Table (Vtables)
+          echo "=== Checking Relocation Tables (Vtables) ==="
+          readelf -r *.so | grep -E "$STAMINA_ADDR|$HP_ADDR" || echo "No relocations found."
+
       - name: Upload
         uses: actions/upload-artifact@v7
         with:
