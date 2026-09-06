@@ -16,11 +16,5 @@ jobs:
       - name: Upload
         uses: actions/upload-artifact@v7
         with:
-          archive: false
-          path: demangled.txt
-
-      - name: Upload
-        uses: actions/upload-artifact@v7
-        with:
-          archive: false
-          path: mangled.txt
+          name: archive
+          path: "*.txt"
