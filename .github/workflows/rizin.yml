@@ -10,7 +10,7 @@ jobs:
 
       - name: Run
         run: |
-          docker run -v "$PWD:/pwd" rizin/rizin:latest rizin -q -c "aaa" /pwd/*.so
+          docker run -v "$PWD:/pwd" rizin/rizin:latest sh -c 'rizin -q -c "aaa" /pwd/*.so'
 
       - name: Upload
         uses: actions/upload-artifact@v7
