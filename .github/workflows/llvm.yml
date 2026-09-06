@@ -6,6 +6,7 @@ on:
         description: Symbols
       leading-addresses:
         description: Leading addresses
+        type: boolean
 
 jobs:
   llvm:
