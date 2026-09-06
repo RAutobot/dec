@@ -1,0 +1,23 @@
+name: Full Disassemble
+on: workflow_dispatch
+  
+jobs:
+  full-disassemble:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Run
+        run: |
+          llvm-nm-18 -D -f just-symbols *.so | while read -r symbol; do
+            if [[ -n "$symbol" ]]; then
+              llvm-objdump-18 --disassemble-symbols="$symbol" *.so | llvm-cxxfilt-18 | sed -E -e 's/\s+/ /g' -e 's/^\S+ <(.+)>:$/\1/' -e 's/^ \S+: \S+ //' > "$symbol.asm"
+            fi
+          done
+
+      - name: Upload
+        uses: actions/upload-artifact@v7
+        with:
+          name: archive
+          path: "*.asm"
