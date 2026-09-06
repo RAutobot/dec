@@ -23,13 +23,7 @@ jobs:
 
       - name: Linear Call Search
         run: |
-          # 1. Check if there are any direct branch/call instructions (bl/b) in the entire binary
-          echo "=== Direct calls in code (.text) ==="
-          llvm-objdump-18 -d -C *.so | grep -E "(bl|b)\s+.*Create(Stamina|HP)BarForEntity" || echo "No direct calls found."
-
-          # 2. Check if either function address is in the Relocation Table (Vtables/Function pointers)
-          echo "=== Function pointer / Vtable references (.rela.dyn) ==="
-          readelf -r *.so | grep -E "Create(Stamina|HP)BarForEntity" || echo "No relocation entries found."
+          llvm-objdump-18 -d -C --start-address=0xaea7f0 --stop-address=0xaea850 *.so
 
       - name: Upload
         uses: actions/upload-artifact@v7
