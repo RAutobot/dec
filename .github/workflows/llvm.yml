@@ -20,12 +20,7 @@ jobs:
           llvm-nm-18 -D -f posix *.so > nm.txt
 
           if [[ -n "${{ inputs.symbols }}" ]]; then
-            llvm-objdump-18 ${{ inputs.leading-addresses && '--no-show-raw-insn' || '--no-leading-addr --no-show-raw-insn' }} --disassemble-symbols="${{ inputs.symbols }}" *.so | llvm-cxxfilt-18 | sed -E '
-              s/^[[:space:]]+//
-              s/[[:space:]]+$//
-              s/[[:space:]]+/ /g
-              s/^[[:xdigit:]]+ <([^>]+)>:$/\1/
-            ' > objdump.txt
+            llvm-objdump-18 ${{ inputs.leading-addresses && '--no-show-raw-insn' || '--no-leading-addr --no-show-raw-insn' }} --disassemble-symbols="${{ inputs.symbols }}" *.so | llvm-cxxfilt-18 | sed -E 's/^[[:space:]]+//; s/[[:space:]]+$//; s/[[:space:]]+/ /g; s/^[[:xdigit:]]+ <([^>]+)>:$/\1/;' > objdump.txt
           fi
 
       - name: Upload
