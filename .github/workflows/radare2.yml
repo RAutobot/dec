@@ -23,9 +23,10 @@ jobs:
 
       - name: Linear Call Search
         run: |
-          # Print functions around that address
-          llvm-nm -n -C *.so | grep -B 2 -A 2 "aea8"
- 
+          llvm-objdump-18 -d *.so | grep -B 2 -A 5 "#0x5f0"
+          echo "==="
+          llvm-objdump-18 -d *.so | grep -B 2 -A 5 "#0x161"
+
       - name: Upload
         uses: actions/upload-artifact@v7
         with:
