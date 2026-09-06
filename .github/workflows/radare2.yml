@@ -13,7 +13,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends radare2
 
-          llvm-objdump-18 -d -C --start-address=0xaf0fb0 --stop-address=0xaf0ff0 *.so > hi.txt
+          llvm-objdump-18 -d -C --start-address=0xaf0f90 --stop-address=0xaf0fb4 *.so > e.txt
 
       - name: Upload
         uses: actions/upload-artifact@v7
