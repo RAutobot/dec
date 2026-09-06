@@ -16,5 +16,5 @@ jobs:
       - name: Upload
         uses: actions/upload-artifact@v7
         with:
-          name: archive
+          name: names
           path: "*.txt"
