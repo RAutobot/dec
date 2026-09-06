@@ -14,7 +14,7 @@ jobs:
 
       - name: Run
         run: |
-          llvm-nm-18 -D -f posix --defined-only *.so > names.txt
+          llvm-nm-18 -D -f posix *.so > names.txt
 
           if [[ -n "${{ inputs.disassemble-symbols }}" ]]
           then
