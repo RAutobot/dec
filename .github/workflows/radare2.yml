@@ -1,10 +1,5 @@
 name: Radare2
-on:
-  workflow_dispatch:
-    inputs:
-      offset:
-        description: Offset
-        required: true
+on: workflow_dispatch
   
 jobs:
   radare2:
@@ -14,7 +9,6 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Install and run
-
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends radare2
