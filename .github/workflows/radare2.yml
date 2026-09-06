@@ -23,8 +23,13 @@ jobs:
 
       - name: Linear Call Search
         run: |
-          llvm-objdump-18 -d *.so | grep -B 2 -A 5 "#0x5f0" > 0x5f0.txt
-          llvm-objdump-18 -d *.so | grep -B 2 -A 5 "#0x161" > 0x161.txt
+          # 1. See who calls UpdateUI (at address af77d0):
+          echo "=== Who calls UpdateUI? ==="
+          llvm-objdump-18 -d *.so | grep -E "(bl|b)\s+.*af77d0" || echo "No direct calls to UpdateUI."
+
+          # 2. Dump the rest of UpdateUI to see how it shrinks the bar:
+          echo "=== Full UpdateUI function ==="
+          llvm-objdump-18 -d -C --start-address=0xaf77d0 --stop-address=0xaf7810 *.so > e.txt
 
       - name: Upload
         uses: actions/upload-artifact@v7
