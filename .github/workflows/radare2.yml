@@ -10,15 +10,10 @@ jobs:
 
       - name: Install and run
         run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends radare2
+          #sudo apt-get update
+          #sudo apt-get install -y --no-install-recommends radare2
 
-          # Dump OnBeginMoving and OnFinishMoving:
-          llvm-objdump-18 -d -C *.so | grep -A 10 "<KosovoNewMovementComponent::OnBeginMoving" >> hmm.txt
-          llvm-objdump-18 -d -C *.so | grep -A 10 "<KosovoNewMovementComponent::OnFinishMoving" >> hmm.txt
-
-          # Dump SetMovementState:
-          llvm-objdump-18 -d -C *.so | grep -A 15 "<KosovoNewMovementComponent::SetMovementState" >> hmm.txt
+          llvm-objdump-18 -d -C *.so > hmm.txt
 
       - name: Upload
         uses: actions/upload-artifact@v7
