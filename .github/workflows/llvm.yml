@@ -1,0 +1,34 @@
+name: LLVM
+on:
+  workflow_dispatch:
+    inputs:
+      disassemble-symbols:
+        description: Disassemble symbols
+
+jobs:
+  llvm:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Run
+        run: |
+          llvm-nm-18 -D -f posix --defined-only *.so > names.txt
+
+          if [[ -n "${{ inputs.disassemble-symbols }}" ]]
+          then
+            llvm-objdump-18 --disassemble-symbols="${{ inputs.disassemble-symbols }}" *.so | llvm-cxxfilt-18 | sed -E -e 's/\s+/ /g' -e 's/^\S+ <(.+)>:$/\1/' -e 's/^ \S+: \S+ //' > objdump.txt
+          fi
+
+      - name: Upload
+        uses: actions/upload-artifact@v7
+        with:
+          archive: false
+          path: names.txt
+
+      - name: Upload
+        uses: actions/upload-artifact@v7
+        with:
+          archive: false
+          path: objdump.txt
