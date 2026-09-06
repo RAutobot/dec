@@ -13,13 +13,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends radare2
 
-          # 1. Dump the code right after af1004 in Update():
-          echo "=== Inside Update() after af1004 ==="
-          llvm-objdump-18 -d -C --start-address=0xaf1000 --stop-address=0xaf1030 *.so > e.txt
-
-          # 2. Print the exact string FindElementByName was searching for at 0x4ba56b:
-          echo "=== Child Element Name ==="
-          r2 -q -c "ps @ 0x4ba56b" *.so > r2.txt
+          llvm-objdump-18 -d -C --start-address=0xaf0fb0 --stop-address=0xaf0ff0 *.so > hi.txt
 
       - name: Upload
         uses: actions/upload-artifact@v7
