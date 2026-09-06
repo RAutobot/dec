@@ -24,7 +24,7 @@ jobs:
               s/^[[:space:]]+//
               s/[[:space:]]+$//
               s/[[:space:]]+/ /g
-              s/<([^>]+)>:$/\1/
+              s/<(.+)>:$/\1/
             ' > objdump.txt
           fi
 
