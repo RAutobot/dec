@@ -23,12 +23,11 @@ jobs:
 
       - name: Linear Call Search
         run: |
-          llvm-objdump-18 -d *.so | grep -B 2 -A 5 "#0x5f0"
-          echo "==="
-          llvm-objdump-18 -d *.so | grep -B 2 -A 5 "#0x161"
+          llvm-objdump-18 -d *.so | grep -B 2 -A 5 "#0x5f0" > 0x5f0.txt
+          llvm-objdump-18 -d *.so | grep -B 2 -A 5 "#0x161" > 0x161.txt
 
       - name: Upload
         uses: actions/upload-artifact@v7
         with:
-          archive: false
-          path: radare2.txt
+          name: archive
+          path: "*.txt"
