@@ -18,7 +18,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends radare2
 
-          r2 -q -e bin.cache=true -c "aa; aac; axt @ ${{ inputs.offset }}" *.so > radare2.txt
+          r2 -q -e bin.cache=true -c "aa; aar; axt @ ${{ inputs.offset }}" *.so > radare2.txt
 
       - name: Upload
         uses: actions/upload-artifact@v7
