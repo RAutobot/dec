@@ -23,7 +23,7 @@ jobs:
 
       - name: Linear Call Search
         run: |
-          llvm-objdump-18 -d -C --start-address=0xaea7f0 --stop-address=0xaea850 *.so
+          llvm-objdump-18 -d -C --start-address=0xaea7f0 --stop-address=0xaea850 *.so > radare2.txt
 
       - name: Upload
         uses: actions/upload-artifact@v7
