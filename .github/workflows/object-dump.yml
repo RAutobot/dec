@@ -1,0 +1,24 @@
+name: Object Dump
+on:
+  workflow_dispatch:
+    inputs:
+      disassemble-symbols:
+        description: Disassemble symbols
+        required: true
+
+jobs:
+  object-dump:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Run
+        run: |
+          llvm-objdump-18 --disassemble-symbols="${{ inputs.disassemble-symbols }}" *.so | llvm-cxxfilt-18 | sed -E -e 's/\s+/ /g' -e 's/^\S+ <(.+)>:$/\1/' -e 's/^ \S+: \S+ //' > object-dump.txt
+
+      - name: Upload
+        uses: actions/upload-artifact@v7
+        with:
+          archive: false
+          path: object-dump.txt

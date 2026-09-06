@@ -1,0 +1,18 @@
+name: Names
+on: [push, workflow_dispatch]
+  
+jobs:
+  names:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Run
+        run: llvm-nm-18 -D -f posix *.so > names.txt
+
+      - name: Upload
+        uses: actions/upload-artifact@v7
+        with:
+          archive: false
+          path: names.txt
