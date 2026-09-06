@@ -16,9 +16,8 @@ jobs:
         run: |
           llvm-nm-18 -D -f posix *.so > nm.txt
 
-          if [[ -n "${{ inputs.disassemble-symbols }}" ]]
-          then
-            llvm-objdump-18 --disassemble-symbols="${{ inputs.disassemble-symbols }}" *.so | llvm-cxxfilt-18 | sed -E -e 's/\s+/ /g' -e 's/^\S+ <(.+)>:$/\1/' -e 's/^ \S+: \S+ //' > objdump.txt
+          if [[ -n "${{ inputs.disassemble-symbols }}" ]]; then
+            llvm-objdump-18 --no-show-raw-insn --disassemble-symbols="${{ inputs.disassemble-symbols }}" *.so | llvm-cxxfilt-18 | awk '{ $1=$1; gsub(/^.*<|>:$/, ""); print; }' > objdump.txt
           fi
 
       - name: Upload
