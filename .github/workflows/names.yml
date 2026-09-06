@@ -1,12 +1,6 @@
 name: Names
-on:
-  workflow_dispatch:
-    inputs:
-      format:
-        description: Format
-        options: [bsd, darwin, just-symbols, posix, sysv]
-        type: choice
-  
+on: workflow_dispatch
+
 jobs:
   names:
     runs-on: ubuntu-latest
@@ -15,10 +9,14 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Run
-        run: llvm-nm-18 -D -f "${{ inputs.format }}" --defined-only *.so > "${{ inputs.format }}.txt"
+        run: |
+          for format in bsd darwin just-symbols posix sysv
+          do
+            llvm-nm-18 -D -f "$format" --defined-only *.so > "$format.txt"
+          done
 
       - name: Upload
         uses: actions/upload-artifact@v7
         with:
-          archive: false
-          path: ${{ inputs.format }}.txt
+          name: names
+          path: "*.txt"
