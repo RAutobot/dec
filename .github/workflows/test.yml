@@ -18,11 +18,10 @@ jobs:
           unzip -q -o com.DVloper.Granny3.apk
           unzip -q -o config.arm64_v8a.apk
 
-          ls -R
-
       - name: Release
         uses: softprops/action-gh-release@v3
         with:
           tag_name: test
           files: |
             lib/arm64-v8a/libil2cpp.so
+            assets/bin/Data/Managed/Metadata/global-metadata.dat
