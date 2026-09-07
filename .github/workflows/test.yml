@@ -1,5 +1,10 @@
 name: Test
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: URL
+        required: true
   
 jobs:
   test:
@@ -9,11 +14,7 @@ jobs:
     steps:
       - name: Run
         run: |
-          url="https://apkcombo.com/r2?u=https%3A%2F%2Fapks.39b7cb94d40914bac590886981b0ed6e.r2.cloudflarestorage.com%2Fcom.DVloper.Granny3%2F1.3%2F13.3432a06f98df34bc564aaa0af45fd36f95a9b575.apks%3Fresponse-content-disposition%3Dattachment%253B%2520filename%253D%2522Granny%25203_1.3_apkcombo.com.xapk%2522%26response-content-type%3Dapplication%252Fxapk-package-archive%26X-Amz-Algorithm%3DAWS4-HMAC-SHA256%26X-Amz-Date%3D20260907T145524Z%26X-Amz-SignedHeaders%3Dhost%26X-Amz-Expires%3D14400%26X-Amz-Credential%3D3cb727b4cd4780c410b780ac7caa4da3%252F20260907%252Fauto%252Fs3%252Faws4_request%26X-Amz-Signature%3Dcbd769de83835c07209a7d2c22fb2480b87165203aad6bc7aa3257e7d13cf912&fp=1e2f7b691176b5fcf7f9c5db2855b227&ip=203.78.120.224&package_name=com.DVloper.Granny3&lang=en"
-
-          unzip -q "$(curl -sSLOJ -w %{filename_effective} "$url")"
-          unzip -q config.arm64_v8a.apk
-
+          unzip -q "$(curl -sSLOJ -w %{filename_effective} "${{ inputs.url }}")" com.DVloper.Granny3.apk config.arm64_v8a.apk
           ls -R
 
       - name: Release
