@@ -14,5 +14,5 @@ jobs:
       - name: Upload
         uses: actions/upload-artifact@v7
         with:
-          archive: false
+          name: symbols
           path: symbols.txt
