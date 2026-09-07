@@ -23,5 +23,11 @@ jobs:
       - name: Upload
         uses: actions/upload-artifact@v7
         with:
+          name: assembly
+          path: assembly.txt
+ 
+      - name: Upload
+        uses: actions/upload-artifact@v7
+        with:
           archive: false
           path: assembly.txt
