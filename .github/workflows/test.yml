@@ -14,7 +14,10 @@ jobs:
     steps:
       - name: Run
         run: |
-          unzip -q "$(curl -sSLOJ -w %{filename_effective} "${{ inputs.url }}")" com.DVloper.Granny3.apk config.arm64_v8a.apk
+          unzip -q "$(curl -sSLOJ -w %{filename_effective} "${{ inputs.url }}")"
+          unzip -q com.DVloper.Granny3.apk
+          unzip -q config.arm64_v8a.apk
+
           ls -R
 
       - name: Release
