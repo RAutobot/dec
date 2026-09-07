@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Run
-        run:
+        run: |
           llvm-objdump-18 -d --no-leading-addr --no-show-raw-insn ${{ inputs.symbols && format('--disassemble-symbols="{0}"', inputs.symbols) || '' }} *.so | llvm-cxxfilt-18 | sed -E '
             s/^[[:space:]]+//
             s/[[:space:]]+/ /g
