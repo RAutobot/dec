@@ -7,8 +7,10 @@ on:
         required: true
       start-address:
         description: Start address
+        required: true
       stop-address:
         description: Stop address
+        required: true
 
 jobs:
   assembly:
