@@ -14,7 +14,7 @@ jobs:
     steps:
       - name: Run
         run: |
-          llvm-objdump-18 -d --no-leading-addr --no-show-raw-insn ${{ inputs.symbols && format('--disassemble-symbols="{0}"', inputs.symbols) || '' }} "$(curl -sSLOJ -w %{filename_effective} "${{ inputs.url }})" | llvm-cxxfilt-18 | sed -E '
+          llvm-objdump-18 -d --no-leading-addr --no-show-raw-insn ${{ inputs.symbols && format('--disassemble-symbols="{0}"', inputs.symbols) || '' }} "$(curl -sSLOJ -w %{filename_effective} "${{ inputs.url }}")" | llvm-cxxfilt-18 | sed -E '
             s/^[[:space:]]+//
             s/[[:space:]]+/ /g
             s/<(.+)>:$/\1/
