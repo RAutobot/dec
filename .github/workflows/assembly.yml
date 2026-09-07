@@ -4,7 +4,6 @@ on:
     inputs:
       symbols:
         description: Symbols
-        required: true
 
 jobs:
   assembly:
@@ -14,16 +13,27 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Run
+        if: ${{ inputs.symbols == '' }}
         run: |
-          llvm-objdump-18 --no-leading-addr --no-show-raw-insn --disassemble-symbols="${{ inputs.symbols }}" *.so | sed -E '
+          llvm-objdump-18 -d --no-show-raw-insn *.so | llvm-cxxfilt-18 | sed -E '
             s/^[[:space:]]+//
             s/[[:space:]]+$//
             s/[[:space:]]+/ /g
             s/<(.+)>:$/\1/
-          ' | llvm-cxxfilt-18 > assembly.txt
+          ' > assembly.txt
+
+      - name: Run
+        if: ${{ inputs.symbols != '' }}
+        run: |
+          llvm-objdump-18 --no-leading-addr --no-show-raw-insn --disassemble-symbols="${{ inputs.symbols }}" *.so | llvm-cxxfilt-18 | sed -E '
+            s/^[[:space:]]+//
+            s/[[:space:]]+$//
+            s/[[:space:]]+/ /g
+            s/<(.+)>:$/\1/
+          ' > assembly.txt
 
       - name: Upload
         uses: actions/upload-artifact@v7
         with:
-          archive: false
+          name: assembly
           path: assembly.txt
