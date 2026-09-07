@@ -9,7 +9,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Run
-        run: llvm-nm-18 -f posix *.so > symbols.txt
+        run: llvm-nm-18 -D -f posix *.so > symbols.txt
 
       - name: Upload
         uses: actions/upload-artifact@v7
