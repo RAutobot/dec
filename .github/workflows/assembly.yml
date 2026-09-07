@@ -7,7 +7,7 @@ on:
         required: true
       commands:
         description: Commands
-        default: "--no-leading-addr --no-show-raw-insn"
+        default: "-d --no-leading-addr --no-show-raw-insn"
         required: true
 
 jobs:
