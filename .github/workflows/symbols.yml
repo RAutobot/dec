@@ -12,11 +12,13 @@ jobs:
     steps:
       - name: Run
         run: |
-          llvm-nm-18 -D "$(curl -sSLOJ -w %{filename_effective} "${{ inputs.url }}")" > tmp
-          paste -d " " tmp <(awk '{ print $NF }' tmp | llvm-cxxfilt-18) | awk '{ if ($NF == $(NF - 1)) NF--; print $0 }' > symbols.txt
+          filename="$(curl -sSLOJ -w %{filename_effective} "${{ inputs.url }}")"
+
+          llvm-nm-18 -DC "$filename" > demangled.txt
+          llvm-nm-18 -D "$filename" > mangled.txt
 
       - name: Upload
         uses: actions/upload-artifact@v7
         with:
           name: symbols
-          path: symbols.txt
+          path: "*.txt"
