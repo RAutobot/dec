@@ -14,8 +14,8 @@ jobs:
         run: |
           filename="$(curl -sSLOJ -w %{filename_effective} "${{ inputs.url }}")"
 
-          llvm-nm-18 -DnC "$filename" > demangled.txt
-          llvm-nm-18 -Dn "$filename" > mangled.txt
+          llvm-nm-18 -DC "$filename" > demangled.txt
+          llvm-nm-18 -D "$filename" > mangled.txt
 
       - name: Upload
         uses: actions/upload-artifact@v7
