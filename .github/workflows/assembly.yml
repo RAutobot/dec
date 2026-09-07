@@ -18,9 +18,9 @@ jobs:
         run: |
           filename="$(curl -sSLOJ -w %{filename_effective} "${{ inputs.url }}")"
           llvm-objdump-18 -d ${{ inputs.commands }} "$filename" | llvm-cxxfilt-18 | sed -E '
-            s/^[[:space:]]+//
+            s/^[[:xdigit:]]* <(.+)>:$/\1/
             s/[[:space:]]+/ /g
-            s/<(.+)>:$/\1/
+            s/^[[:space:]]+//
           ' > assembly.txt
 
       - name: Upload
