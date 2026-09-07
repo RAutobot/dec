@@ -12,8 +12,8 @@ jobs:
     steps:
       - name: Run
         run: |
-          llvm-nm-18 -D "$(curl -sSLOJ -w %{filename_effective} "${{ inputs.url }}")" > a.txt
-          paste -d " " a.txt <(awk '{ print $NF }' b.txt | llvm-cxxfilt-18) > symbols.txt
+          llvm-nm-18 -D "$(curl -sSLOJ -w %{filename_effective} "${{ inputs.url }}")" > tmp
+          paste -d " " tmp <(awk '{ print $NF }' tmp | llvm-cxxfilt-18) > symbols.txt
 
       - name: Upload
         uses: actions/upload-artifact@v7
