@@ -10,9 +10,6 @@ jobs:
   symbols:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v7
-
       - name: Run
         run: llvm-nm-18 -D -f posix "$(curl -sSLOJ -w %{filename_effective} "${{ inputs.url }}")" > symbols.txt
 
