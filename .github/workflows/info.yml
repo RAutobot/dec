@@ -11,6 +11,7 @@ jobs:
 
           llvm-nm-18 -DC "$filename" > names.txt
           llvm-nm-18 -D "$filename" > names-raw.txt
+
           llvm-strings-18 "$filename" > strings.txt
 
       - name: Upload
