@@ -7,7 +7,7 @@ on:
         required: true
       commands:
         description: Commands
-        default: "--no-leading-addr --no-show-raw-insn"
+        default: --no-leading-addr
         required: true
 
 jobs:
@@ -17,7 +17,7 @@ jobs:
       - name: Run
         run: |
           filename="$(curl -sSLOJ -w %{filename_effective} "${{ inputs.url }}")"
-          llvm-objdump-18 -d ${{ inputs.commands }} "$filename" | llvm-cxxfilt-18 | sed -E '
+          llvm-objdump-18 -d --no-show-raw-insn ${{ inputs.commands }} "$filename" | llvm-cxxfilt-18 | sed -E '
             s/^([0-9a-fA-F]+ )?<(.+)>:$/\2/
             s/[ \t]+/ /g
             s/^[ \t]]+//
