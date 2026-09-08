@@ -15,6 +15,7 @@ jobs:
       - name: Run
         run: |
           filename="$(curl -sSLOJ -w %{filename_effective} "${{ inputs.url }}")"
+
           llvm-objdump-18 -d --no-show-raw-insn ${{ inputs.extra-commands }} "$filename" | llvm-cxxfilt-18 | sed -E '
             s/^[ \t]+//
             s/[ \t]+/ /g
