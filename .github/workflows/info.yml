@@ -12,7 +12,7 @@ jobs:
           llvm-nm-18 -DC "$filename" > names.txt
           llvm-nm-18 -D "$filename" > names-raw.txt
 
-          llvm-strings-18 "$filename" > strings.txt
+          llvm-strings-18 -t x "$filename" > strings.txt
 
       - name: Upload
         uses: actions/upload-artifact@v7
