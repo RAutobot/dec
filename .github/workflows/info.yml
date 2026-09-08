@@ -1,0 +1,20 @@
+name: Info
+on: workflow_dispatch
+  
+jobs:
+  info:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run
+        run: |
+          filename="$(curl -sSLOJ -w %{filename_effective} "${{ vars.URL }}")"
+
+          llvm-nm-18 -DC "$filename" > names.txt
+          llvm-nm-18 -D "$filename" > names-raw.txt
+          llvm-strings-18 "$filename" > strings.txt
+
+      - name: Upload
+        uses: actions/upload-artifact@v7
+        with:
+          name: info
+          path: "*.txt"
