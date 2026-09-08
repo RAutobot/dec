@@ -8,6 +8,7 @@ on:
       commands:
         description: Commands
         default: "--no-leading-addr --no-show-raw-insn"
+        required: true
 
 jobs:
   assembly:
