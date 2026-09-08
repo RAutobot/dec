@@ -14,17 +14,17 @@ jobs:
         run: |
           filename="$(curl -sSLOJ -w %{filename_effective} "${{ inputs.url }}")"
 
-          llvm-nm-18 -DC "$filename" > demangled-symbols
-          llvm-nm-18 -D "$filename" > symbols.txt
-
-      - name: Upload
-        uses: actions/upload-artifact@v7
-        with:
-          name: demangled-symbols
-          path: demangled-symbols.txt
+          llvm-nm-18 -DC "$filename" > symbols.txt
+          llvm-nm-18 -D "$filename" > symbols-raw.txt
 
       - name: Upload
         uses: actions/upload-artifact@v7
         with:
           name: symbols
           path: symbols.txt
+
+      - name: Upload
+        uses: actions/upload-artifact@v7
+        with:
+          name: symbols-raw
+          path: symbols-raw.txt
