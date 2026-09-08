@@ -19,10 +19,21 @@ jobs:
             s/^[ \t]+//
             s/[ \t]+/ /g
             s/^([0-9a-fA-F]+ )?<(.+)>:$/\2/
-          ' > assembly.txt
+          ' > with-leading-addr.txt
+          llvm-objdump-18 -d --no-leading-addr --no-show-raw-insn ${{ inputs.extra-commands }} "$filename" | llvm-cxxfilt-18 | sed -E '
+            s/^[ \t]+//
+            s/[ \t]+/ /g
+            s/^([0-9a-fA-F]+ )?<(.+)>:$/\2/
+          ' > without-leading-addr.txt
 
       - name: Upload
         uses: actions/upload-artifact@v7
         with:
-          name: assembly
-          path: assembly.txt
+          name: with-leading-addr
+          path: with-leading-addr.txt
+
+      - name: Upload
+        uses: actions/upload-artifact@v7
+        with:
+          name: without-leading-addr
+          path: without-leading-addr.txt
