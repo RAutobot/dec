@@ -2,9 +2,6 @@ name: Assembly
 on:
   workflow_dispatch:
     inputs:
-      url:
-        description: URL
-        required: true
       disassemble-symbols:
         description: Disassemble symbols
       start-address:
@@ -18,7 +15,7 @@ jobs:
     steps:
       - name: Run
         run: |
-          filename="$(curl -sSLOJ -w %{filename_effective} "${{ inputs.url }}")"
+          filename="$(curl -sSLOJ -w %{filename_effective} https://github.com/RAutobot/dec/raw/main/libAndroidGame.so)"
           llvm-objdump-18 -d --no-show-raw-insn ${{ inputs.disassemble-symbols  && format('--disassemble-symbols="{0}"', inputs.disassemble-symbols) || '' }} ${{ inputs.start-address && format('--start-address="{0}"', inputs.start-address) || '' }} ${{ inputs.stop-address && format('--stop-address="{0}"', inputs.stop-address) || '' }} "$filename" | llvm-cxxfilt-18 | sed -E '
             s/^[ \t]+//
             s/[ \t]+/ /g
