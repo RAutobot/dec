@@ -8,7 +8,6 @@ on:
       commands:
         description: Commands
         default: --no-leading-addr
-        required: true
 
 jobs:
   assembly:
