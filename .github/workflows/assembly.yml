@@ -20,21 +20,21 @@ jobs:
             s/^[ \t]+//
             s/[ \t]+/ /g
             s/^([0-9a-fA-F]+ )?<(.+)>:$/\2/
-          ' > with-leading-addr.txt
-          llvm-objdump-18 -d --no-leading-addr --no-show-raw-insn ${{ inputs.extra-commands }} "$filename" | llvm-cxxfilt-18 | sed -E '
+          ' > addresses.txt
+          llvm-objdump-18 -d --no-addresses --no-show-raw-insn ${{ inputs.extra-commands }} "$filename" | llvm-cxxfilt-18 | sed -E '
             s/^[ \t]+//
             s/[ \t]+/ /g
             s/^([0-9a-fA-F]+ )?<(.+)>:$/\2/
-          ' > without-leading-addr.txt
+          ' > no-addresses.txt
 
       - name: Upload
         uses: actions/upload-artifact@v7
         with:
-          name: with-leading-addr
-          path: with-leading-addr.txt
+          name: addresses
+          path: addresses.txt
 
       - name: Upload
         uses: actions/upload-artifact@v7
         with:
-          name: without-leading-addr
-          path: without-leading-addr.txt
+          name: no-addresses
+          path: no-addresses.txt
