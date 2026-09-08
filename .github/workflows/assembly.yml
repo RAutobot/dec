@@ -8,6 +8,14 @@ on:
         description: Start address
       stop-address:
         description: Stop address
+      no-leading-addresses:
+        description: No leading addresses
+        default: true
+        type: boolean
+      no-show-raw-instructions:
+        description: No show raw instructions
+        default: true
+        type: boolean
 
 jobs:
   assembly:
@@ -16,7 +24,7 @@ jobs:
       - name: Run
         run: |
           filename="$(curl -sSLOJ -w %{filename_effective} "${{ vars.URL }}")"
-          llvm-objdump-18 -d --no-show-raw-insn ${{ inputs.disassemble-symbols  && format('--disassemble-symbols="{0}"', inputs.disassemble-symbols) || '' }} ${{ inputs.start-address && format('--start-address="{0}"', inputs.start-address) || '' }} ${{ inputs.stop-address && format('--stop-address="{0}"', inputs.stop-address) || '' }} "$filename" | llvm-cxxfilt-18 | sed -E '
+          llvm-objdump-18 -d ${{ inputs.no-leading-addresses && '--no-leading-addr' || '' }} ${{ inputs.no-show-raw-instructions && '--no-show-raw-insn' || '' }} ${{ inputs.disassemble-symbols  && format('--disassemble-symbols="{0}"', inputs.disassemble-symbols) || '' }} ${{ inputs.start-address && format('--start-address="{0}"', inputs.start-address) || '' }} ${{ inputs.stop-address && format('--stop-address="{0}"', inputs.stop-address) || '' }} "$filename" | llvm-cxxfilt-18 | sed -E '
             s/^[ \t]+//
             s/[ \t]+/ /g
             s/^([0-9a-fA-F]+ )?<(.+)>:$/\2/
