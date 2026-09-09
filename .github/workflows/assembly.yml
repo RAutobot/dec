@@ -23,7 +23,7 @@ jobs:
     steps:
       - name: Run
         run: |
-          zstd -d "(curl -sSLOJ -w %{filename_effective} "${{ vars.URL }}")"
+          zstd -qd "(curl -sSLOJ -w %{filename_effective} "${{ vars.URL }}")"
           llvm-objdump-18 -d ${{ inputs.no-leading-addresses && '--no-leading-addr' || '' }} ${{ inputs.no-show-raw-instructions && '--no-show-raw-insn' || '' }} ${{ inputs.disassemble-symbols  && format('--disassemble-symbols="{0}"', inputs.disassemble-symbols) || '' }} ${{ inputs.start-address && format('--start-address="{0}"', inputs.start-address) || '' }} ${{ inputs.stop-address && format('--stop-address="{0}"', inputs.stop-address) || '' }} *.so | llvm-cxxfilt-18 | sed -E '
             s/^\s+//
             s/\s+/ /g
