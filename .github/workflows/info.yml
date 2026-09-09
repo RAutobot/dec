@@ -9,9 +9,9 @@ jobs:
         run: |
           filename="$(curl -sSLOJ -w %{filename_effective} "${{ vars.URL }}")"
 
-          paste -d "" <(llvm-nm-18 -D "$filename") <(llvm-nm-18 -DjC "$filename") | sed -E '
+          paste <(llvm-nm-18 -D "$filename") <(llvm-nm-18 -DjC "$filename") | sed -E '
             s/^ +//
-            s/ (\S+) \1$/ \1/
+            s/(\S+)\t\1$/ \1/
           ' > names.txt
           llvm-strings-18 -t x "$filename" | sed 's/^ +//' > strings.txt
 
