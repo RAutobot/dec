@@ -7,7 +7,7 @@ jobs:
     steps:
       - name: Run
         run: |
-          zstd -qd "(curl -sSLOJ -w %{filename_effective} "${{ vars.URL }}")"
+          zstd -qd "$(curl -sSLOJ -w %{filename_effective} "${{ vars.URL }}")"
 
           paste -d " " <(llvm-nm-18 -DjC *.so) <(llvm-nm-18 -DP *.so) | sed -E 's/^(\S+) \1/\1/' > names.txt
           llvm-strings-18 -t x *.so | sed 's/^ +//' > strings.txt
