@@ -9,9 +9,10 @@ jobs:
         run: |
           filename="$(curl -sSLOJ -w %{filename_effective} "${{ vars.URL }}")"
 
-          llvm-nm-18 -DC "$filename" > names.txt
-          llvm-nm-18 -D "$filename" > names-raw.txt
-
+          paste -d "" <(llvm-nm-18 -D "$filename") <(llvm-nm-18 -DjC "$filename") | sed -E '
+            s/^ +//
+            s/ (\S+) \1$/ \1/
+          ' > names.txt
           llvm-strings-18 -t x "$filename" | sed 's/^ +//' > strings.txt
 
       - name: Upload
