@@ -1,4 +1,4 @@
-name: Assembly
+name: Dump
 on:
   workflow_dispatch:
     inputs:
@@ -21,7 +21,7 @@ on:
         type: boolean
 
 jobs:
-  assembly:
+  dump:
     runs-on: ubuntu-latest
     steps:
       - name: Run
@@ -34,8 +34,19 @@ jobs:
             s/^([0-9a-fA-F]+ )?<(.+)>:$/\2/
           ' > assembly.txt
 
+          paste -d " " <(llvm-nm-18 -DjC *.so) <(llvm-nm-18 -DP *.so) | sed -E 's/^(\S+) \1/\1/' > names.txt
+          llvm-strings-18 -t x *.so | sed -E 's/^ +//' > strings.txt
+
       - name: Upload
         uses: actions/upload-artifact@v7
         with:
           name: assembly
           path: assembly.txt
+
+      - name: Upload
+        uses: actions/upload-artifact@v7
+        with:
+          name: names-and-strings
+          path: |
+            names.txt
+            strings.txt
